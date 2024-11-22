@@ -69,4 +69,4 @@ Using ref() has a few advantages:
 
 Dependency management: dbt knows that cleaned_orders depends on raw_orders and will build the models in the correct order.
 Cross-environment compatibility: When using ref(), dbt ensures that it refers to the correct schema and table for the current environment (e.g., dev, prod).  
-Avoid hard-coding table names: Using ref() ensures that you are always referencing the correct table created by dbt, even if the actual table name changes due to configurations or renaming. For example, dbt might prepend the schema (e.g., dev_raw_orders or prod_raw_orders).  
+#### Avoid hard-coding table names: Using ref() ensures that you are always referencing the correct table created by dbt, even if the actual table name changes due to configurations or renaming. For example, dbt might prepend the schema (e.g., dev_raw_orders or prod_raw_orders).  
