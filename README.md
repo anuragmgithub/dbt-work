@@ -56,3 +56,17 @@ Staging models: Place all raw or initial transformation models (e.g., from raw s
 Intermediate models: Create an intermediate folder for models that perform transformations between staging and marts.  
 Marts: Place reporting or business-level models in a marts folder.  
 Testing and documentation: Consider separate folders for tests, docs, and seeds (if used).  
+
+## Purpose of ref() in dbt
+2. Why ref('raw_orders') and not orders?  
+In dbt, a model is typically a SQL file located in the models/ folder. When you run dbt run, dbt compiles the SQL code in each model and runs it to create tables or views.
+The table raw_orders likely refers to another model in your dbt project (not an actual table in the database). So, raw_orders is a model that you have defined earlier in your dbt project, and ref('raw_orders') will create a reference to that model.  
+3. Table vs Model  
+If you are referring to a physical table in your database (i.e., one that already exists before running dbt), you would use its actual name (e.g., orders).
+However, when you reference {{ ref('raw_orders') }}, you're telling dbt to refer to a model named raw_orders that may exist in your models/ folder. The table/view that dbt creates for this model will be named raw_orders, and dbt will automatically create a dependency to build that model before using it in other models.  
+4. Why Use ref() Instead of Direct Table Name?  
+Using ref() has a few advantages:  
+
+Dependency management: dbt knows that cleaned_orders depends on raw_orders and will build the models in the correct order.
+Cross-environment compatibility: When using ref(), dbt ensures that it refers to the correct schema and table for the current environment (e.g., dev, prod).  
+Avoid hard-coding table names: Using ref() ensures that you are always referencing the correct table created by dbt, even if the actual table name changes due to configurations or renaming. For example, dbt might prepend the schema (e.g., dev_raw_orders or prod_raw_orders).  
