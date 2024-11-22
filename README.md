@@ -43,4 +43,16 @@ dbt_project.yml handles how dbt behaves (model paths, materializations, etc.), w
 To Summarize:
 dbt_project.yml: Configures your dbt project (how the project works, where things are located, materializations, etc.).
 profiles.yml: Contains the database connection details and environment-specific configurations, ensuring flexibility in connecting to different databases or environments.
-This separation ensures that the two parts of dbt—project configurations and database connections—remain modular, secure, and scalable.  
+This separation ensures that the two parts of dbt—project configurations and database connections—remain modular, secure, and scalable.    
+
+##  How dbt Finds Models in Subfolders
+dbt automatically recognizes all the .sql files in the models/ directory, regardless of how they are organized into subfolders. When you run a dbt command, it will:
+
+Look for models in all subdirectories under the models/ folder.
+Resolve all dependencies defined with ref() between models, even if they are in different subdirectories.  
+ 
+## Best Practices for Organizing Models  
+Staging models: Place all raw or initial transformation models (e.g., from raw sources) in a staging folder.  
+Intermediate models: Create an intermediate folder for models that perform transformations between staging and marts.  
+Marts: Place reporting or business-level models in a marts folder.  
+Testing and documentation: Consider separate folders for tests, docs, and seeds (if used).  
